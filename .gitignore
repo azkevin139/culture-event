@@ -9,6 +9,8 @@ node_modules
 tmp
 test_log
 build_log
+dist
+package-lock.json
 
 test-ledger/
 

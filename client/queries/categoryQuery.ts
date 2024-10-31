@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from "@solana/web3.js";
-import { AccountQuery, Criterion, PublicKeyCriterion } from "./queries";
+import { AccountQuery, PublicKeyCriterion } from "./queries";
 import { Category } from "../accounts";
 
 export class Categories extends AccountQuery<Category> {
@@ -7,15 +7,15 @@ export class Categories extends AccountQuery<Category> {
     return new Categories(connection);
   }
 
+  private authority: PublicKeyCriterion = new PublicKeyCriterion(8);
+
   constructor(connection: Connection) {
-    super(connection, Category, new Map<string, Criterion<unknown>>([
-        ["authority", new PublicKeyCriterion(8)],
-      ])
-    );
+    super(connection, Category);
+    this.setFilters(this.authority);
   }
 
   filterByAuthority(authority: PublicKey): Categories {
-    this.filters.get("authority").setValue(authority);
+    this.authority.setValue(authority);
     return this;
   }
 }

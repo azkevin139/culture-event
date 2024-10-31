@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from "@solana/web3.js";
-import { AccountQuery, BooleanCriterion, Criterion, PublicKeyCriterion } from "./queries";
+import { AccountQuery, BooleanCriterion, PublicKeyCriterion } from "./queries";
 import { Event } from "../accounts";
 
 export class Events extends AccountQuery<Event> {
@@ -7,33 +7,33 @@ export class Events extends AccountQuery<Event> {
     return new Events(connection);
   }
 
+  private authority = new PublicKeyCriterion(8);
+  private category = new PublicKeyCriterion(8 + 32);
+  private eventGroup = new PublicKeyCriterion(8 + 32 + 32);
+  private active = new BooleanCriterion(8 + 32 + 32 + 32);
+
   constructor(connection: Connection) {
-    super(connection, Event, new Map<string, Criterion<unknown>>([
-        ["authority", new PublicKeyCriterion(8)],
-        ["category", new PublicKeyCriterion(8 + 32)],
-        ["eventGroup", new PublicKeyCriterion(8 + 32 + 32)],
-        ["active", new BooleanCriterion(8 + 32 + 32 + 32)]
-      ])
-    );
+    super(connection, Event);
+    this.setFilters(this.authority, this.category, this.eventGroup, this.active);
   }
 
   filterByAuthority(authority: PublicKey): Events {
-    this.filters.get("authority").setValue(authority);
+    this.authority.setValue(authority);
     return this;
   }
 
   filterByCategory(category: PublicKey): Events {
-    this.filters.get("category").setValue(category);
+    this.category.setValue(category);
     return this;
   }
 
   filterByEventGroup(eventGroup: PublicKey): Events {
-    this.filters.get("eventGroup").setValue(eventGroup);
+    this.eventGroup.setValue(eventGroup);
     return this;
   }
 
   filterByActive(active: boolean): Events {
-    this.filters.get("active").setValue(active);
+    this.active.setValue(active);
     return this;
   }
 }

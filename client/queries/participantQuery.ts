@@ -1,5 +1,5 @@
 import { Connection, PublicKey } from "@solana/web3.js";
-import { AccountQuery, BooleanCriterion, ByteCriterion, Criterion, PublicKeyCriterion } from "./queries";
+import { AccountQuery, BooleanCriterion, ByteCriterion, PublicKeyCriterion } from "./queries";
 import { Participant } from "../accounts";
 import { ParticipantTypeKind } from "../types";
 
@@ -8,33 +8,33 @@ export class Participants extends AccountQuery<Participant> {
     return new Participants(connection);
   }
 
+  private authority = new PublicKeyCriterion(8);
+  private category = new PublicKeyCriterion(8 + 32);
+  private participantType = new ByteCriterion(8 + 32 + 32);
+  private active = new BooleanCriterion(8 + 32 + 32 + 1);
+
   constructor(connection: Connection) {
-    super(connection, Participant, new Map<string, Criterion<unknown>>([
-        ["authority", new PublicKeyCriterion(8)],
-        ["category", new PublicKeyCriterion(8 + 32)],
-        ["participantType", new ByteCriterion(8 + 32 + 32)],
-        ["active", new BooleanCriterion(8 + 32 + 32 + 1)]
-      ])
-    );
+    super(connection, Participant);
+    this.setFilters(this.authority, this.category, this.participantType, this.active);
   }
 
   filterByAuthority(authority: PublicKey): Participants {
-    this.filters.get("authority").setValue(authority);
+    this.authority.setValue(authority);
     return this;
   }
 
   filterByCategory(category: PublicKey): Participants {
-    this.filters.get("category").setValue(category);
+    this.category.setValue(category);
     return this;
   }
 
   filterByParticipantType(participantType: ParticipantTypeKind): Participants {
-    this.filters.get("participantType").setValue(participantType.discriminator);
+    this.participantType.setValue(participantType.discriminator);
     return this;
   }
 
   filterByActive(active: boolean): Participants {
-    this.filters.get("active").setValue(active);
+    this.active.setValue(active);
     return this;
   }
 }

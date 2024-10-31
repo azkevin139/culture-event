@@ -19,12 +19,16 @@ interface QueryableAccountClass<T> {
 export abstract class AccountQuery<T> {
   private readonly connection: Connection;
   private accountClass: QueryableAccountClass<T>;
-  protected filters: Map<string, Criterion<unknown>>;
+  protected filters: Criterion<unknown>[];
 
-  protected constructor(connection: Connection, accountClass: QueryableAccountClass<T>, filters: Map<string, Criterion<unknown>>) {
+  protected constructor(connection: Connection, accountClass: QueryableAccountClass<T>) {
     this.connection = connection;
     this.accountClass = accountClass;
-    this.filters = filters;
+    this.filters = [];
+  }
+
+  public setFilters(...filters: Criterion<unknown>[]) {
+    this.filters.push(...filters)
   }
 
   /**
@@ -37,7 +41,7 @@ export abstract class AccountQuery<T> {
         PROGRAM_ID,
         {
           dataSlice: { offset: 0, length: 0 }, // fetch without any data.
-          filters: this.toFilters(...this.filters.values())
+          filters: this.toFilters(...this.filters)
         }
       );
       return accounts.map((account) => account.pubkey);
@@ -54,7 +58,7 @@ export abstract class AccountQuery<T> {
   public async fetch() {
     const publicKeys = await this.fetchPublicKeys();
 
-    let accounts: T[] = [];
+    let accounts: (T | null)[] = [];
 
     try {
       if (publicKeys.length <= GET_MULTIPLE_ACCOUNTS_LIMIT) {
