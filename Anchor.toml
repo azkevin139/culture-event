@@ -1,3 +1,7 @@
+[toolchain]
+anchor_version = "0.29.0"
+solana_version = "1.17.30"
+
 [programs.localnet]
 protocol_event = "Q4JNMDYYGb1kktLz1yr6p5PktLvCyVCDcThzmjzji5i"
 
