@@ -13,7 +13,7 @@ pub mod error;
 pub mod instructions;
 pub mod state;
 
-declare_id!("mpeq1VkcGKDWS7ELiQJ2diRPX9vHQb27FruqcoxhPqF");
+declare_id!("Q4JNMDYYGb1kktLz1yr6p5PktLvCyVCDcThzmjzji5i");
 
 #[program]
 pub mod protocol_event {
