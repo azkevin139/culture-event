@@ -1,5 +1,8 @@
 [programs.localnet]
-protocol_event = "mpeq1VkcGKDWS7ELiQJ2diRPX9vHQb27FruqcoxhPqF"
+protocol_event = "Q4JNMDYYGb1kktLz1yr6p5PktLvCyVCDcThzmjzji5i"
+
+[programs.devnet]
+protocol_event = "Q4JNMDYYGb1kktLz1yr6p5PktLvCyVCDcThzmjzji5i"
 
 [registry]
 url = "https://anchor.projectserum.com"
