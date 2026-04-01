@@ -5,7 +5,7 @@
 <a href="https://github.com/coral-xyz/anchor"><img alt="Repo Framework Anchor"  src="http://img.shields.io/badge/framework-anchor-9cf"></a><br/>
 
 # About :books:
-
+> This repository is a Culture Markets fork derived from the Monaco Protocol `protocol-event` codebase and maintained under the Apache License 2.0 with required attribution preserved.
 Repository of the Monaco Protocol Events Program, as well as the JavaScript client for interacting with the program.
 
 This program is designed as a standalone product for storing sporting events data on-chain. The intention behind this program is to store the data required, via oracles and other data feeds, to drive the automated creation, update and settlement of betting markets.
